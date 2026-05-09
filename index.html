@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Mother's Day 💐</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0412;
+    font-family: 'Georgia', serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+    cursor: default;
+  }
+
+  /* ── SCENE LAYERS ── */
+  #scene {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Sky gradient that transitions */
+  #sky {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 20%, #1a0535 0%, #0a0412 60%);
+    transition: background 4s;
+  }
+
+  /* Stars */
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    animation: twinkle var(--d) ease-in-out infinite alternate;
+  }
+  @keyframes twinkle {
+    from { opacity: var(--lo); transform: scale(0.8); }
+    to   { opacity: 1; transform: scale(1.1); }
+  }
+
+  /* Petals */
+  .petal {
+    position: absolute;
+    border-radius: 50% 0 50% 0;
+    opacity: 0;
+    animation: fall var(--fd) var(--delay) ease-in infinite;
+  }
+  @keyframes fall {
+    0%   { transform: translateY(-60px) rotate(0deg); opacity: 0.9; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* Fireflies */
+  .fly {
+    position: absolute;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #ffe97a;
+    box-shadow: 0 0 8px 3px #ffe97a88;
+    animation: drift var(--dd) ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    from { transform: translate(0,0); opacity: 0.2; }
+    to   { transform: translate(var(--dx), var(--dy)); opacity: 1; }
+  }
+
+  /* Floating hearts */
+  .heart-float {
+    position: absolute;
+    font-size: var(--hs);
+    animation: rise var(--hd) var(--hdelay) ease-in infinite;
+    opacity: 0;
+    pointer-events: none;
+  }
+  @keyframes rise {
+    0%   { transform: translateY(0) scale(0.5); opacity: 0.7; }
+    80%  { opacity: 0.3; }
+    100% { transform: translateY(-80vh) scale(1.2); opacity: 0; }
+  }
+
+  /* Ground with flowers */
+  #ground {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 160px;
+  }
+
+  /* ── CONTENT PANELS ── */
+  #content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px 80px;
+  }
+
+  /* ── PANEL BASE ── */
+  .panel {
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto 60px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s, transform 1s;
+  }
+  .panel.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── INTRO / HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .subtitle-tag {
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #c9a96e;
+    margin-bottom: 20px;
+    animation: fadeIn 2s ease both;
+  }
+
+  h1.big-title {
+    font-size: clamp(42px, 10vw, 88px);
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    font-style: italic;
+    animation: fadeIn 2.5s ease both;
+    text-shadow: 0 0 60px #c9567880;
+  }
+
+  h1.big-title span { color: #f0a0c0; }
+
+  .dedication {
+    font-size: clamp(16px, 3vw, 20px);
+    color: #d4b8e0;
+    margin-top: 16px;
+    letter-spacing: 1px;
+    animation: fadeIn 3s ease both;
+  }
+
+  .scroll-hint {
+    margin-top: 60px;
+    color: #ffffff55;
+    font-size: 13px;
+    letter-spacing: 2px;
+    animation: bounce 2s infinite, fadeIn 4s ease both;
+  }
+  @keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── FLOWER BLOOM SECTION ── */
+  #bloom-section {
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  .flower-svg {
+    width: 220px;
+    height: 220px;
+    display: block;
+    margin: 0 auto 24px;
+    filter: drop-shadow(0 0 30px #f0a0c060);
+  }
+
+  .petal-anim {
+    transform-origin: 110px 110px;
+    animation: petalOpen 2s ease both;
+  }
+  @keyframes petalOpen {
+    from { transform: scale(0) rotate(-45deg); opacity: 0; }
+    to   { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  /* ── MUSIC PLAYER ── */
+  #music-player {
+    background: linear-gradient(135deg, #1c0a2e 0%, #2d1055 100%);
+    border: 1px solid #6a3fa0;
+    border-radius: 20px;
+    padding: 28px 32px;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .music-title {
+    color: #d4a0ff;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .music-song {
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 4px;
+    font-style: italic;
+  }
+
+  .music-artist {
+    color: #a07cc0;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .music-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .play-btn {
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #9b4dca, #6a1f8a);
+    border: none;
+    cursor: pointer;
+    font-size: 22px;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 20px #9b4dca60;
+    color: white;
+  }
+  .play-btn:hover { transform: scale(1.1); box-shadow: 0 0 30px #9b4dca90; }
+
+  .music-progress {
+    flex: 1;
+    max-width: 200px;
+  }
+
+  .progress-bar {
+    height: 4px;
+    background: #3d1a6e;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #9b4dca, #f0a0c0);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.5s linear;
+  }
+
+  .progress-time {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #8060a0;
+  }
+
+  .music-note {
+    position: absolute;
+    font-size: var(--ns);
+    color: #d4a0ff88;
+    animation: floatNote var(--nd) var(--ndelay) ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes floatNote {
+    0%   { transform: translate(0,0) rotate(0deg); opacity: 0; }
+    30%  { opacity: 1; }
+    100% { transform: translate(var(--nx), var(--ny)) rotate(var(--nr)); opacity: 0; }
+  }
+
+  /* ── SPEECH / SERMON ── */
+  .sermon-card {
+    background: linear-gradient(160deg, #0f0820 0%, #1a0a35 100%);
+    border: 1px solid #5a3080;
+    border-radius: 20px;
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sermon-card::before {
+    content: '"';
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    font-size: 180px;
+    color: #ffffff08;
+    font-family: Georgia, serif;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .sermon-label {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #c9a96e;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .sermon-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, #c9a96e60, transparent);
+  }
+
+  .sermon-text {
+    font-size: clamp(15px, 2.5vw, 18px);
+    color: #e0d0f0;
+    line-height: 2;
+    font-style: italic;
+  }
+
+  .sermon-text em {
+    color: #f0b0d0;
+    font-style: normal;
+    font-weight: bold;
+  }
+
+  .sermon-line {
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.8s, transform 0.8s;
+  }
+  .sermon-line.shown {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* ── PHOTO FRAME ── */
+  .frame-section {
+    text-align: center;
+  }
+
+  .photo-frame {
+    width: 260px;
+    height: 300px;
+    margin: 0 auto 24px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .frame-border {
+    position: absolute; inset: 0;
+    border: 3px solid #c9a96e;
+    border-radius: 12px;
+    box-shadow: 0 0 40px #c9a96e40, inset 0 0 30px #0a041280;
+  }
+
+  .frame-corner {
+    position: absolute;
+    width: 20px; height: 20px;
+    border-color: #f0d080;
+    border-style: solid;
+    border-width: 0;
+  }
+  .fc-tl { top: -2px; left: -2px; border-top-width: 4px; border-left-width: 4px; border-radius: 4px 0 0 0; }
+  .fc-tr { top: -2px; right: -2px; border-top-width: 4px; border-right-width: 4px; border-radius: 0 4px 0 0; }
+  .fc-bl { bottom: -2px; left: -2px; border-bottom-width: 4px; border-left-width: 4px; border-radius: 0 0 0 4px; }
+  .fc-br { bottom: -2px; right: -2px; border-bottom-width: 4px; border-right-width: 4px; border-radius: 0 0 4px 0; }
+
+  .frame-inner {
+    width: 220px;
+    height: 260px;
+    background: linear-gradient(160deg, #1a0535, #2d0a50);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .frame-silhouette {
+    font-size: 64px;
+    filter: drop-shadow(0 0 20px #f0a0c0);
+    animation: glow 3s ease-in-out infinite alternate;
+  }
+  @keyframes glow {
+    from { filter: drop-shadow(0 0 10px #f0a0c060); }
+    to   { filter: drop-shadow(0 0 30px #f0a0c0cc); }
+  }
+
+  .frame-name {
+    color: #f0d090;
+    font-size: 15px;
+    letter-spacing: 2px;
+    font-style: italic;
+  }
+
+  .frame-subtitle {
+    color: #c090e0;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  /* ── SIBLINGS SECTION ── */
+  .siblings-row {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin: 24px 0;
+  }
+
+  .sibling-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: fadeIn 1s ease both;
+  }
+
+  .sibling-avatar {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3d1a6e, #6a3fa0);
+    border: 2px solid #9b4dca;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    box-shadow: 0 0 20px #9b4dca40;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .sibling-avatar:hover {
+    transform: scale(1.1) translateY(-4px);
+    box-shadow: 0 8px 30px #9b4dca70;
+  }
+
+  .sibling-label {
+    font-size: 13px;
+    color: #c090e0;
+    letter-spacing: 1px;
+  }
+
+  .love-badge {
+    font-size: 10px;
+    color: #f0b0d0;
+    background: #3d1a4e;
+    padding: 2px 10px;
+    border-radius: 20px;
+    border: 1px solid #7a3a80;
+  }
+
+  /* ── BLESSINGS ── */
+  .blessings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  .blessing-card {
+    background: linear-gradient(160deg, #0f0820, #1a0a35);
+    border: 1px solid #5a3080;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .blessing-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px #5a308060;
+  }
+
+  .blessing-icon { font-size: 32px; margin-bottom: 10px; }
+  .blessing-title { color: #d4a0ff; font-size: 14px; letter-spacing: 1px; margin-bottom: 6px; }
+  .blessing-desc { color: #a080c0; font-size: 13px; line-height: 1.6; }
+
+  /* ── CANDLE SECTION ── */
+  .candle-row {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 40px 0;
+  }
+
+  .candle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .flame {
+    width: 16px; height: 28px;
+    background: radial-gradient(ellipse at 50% 80%, #ffcc00, #ff8800 60%, transparent);
+    border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+    animation: flicker 1.5s ease-in-out infinite alternate;
+    position: relative;
+    top: 4px;
+    filter: blur(1px);
+    box-shadow: 0 0 12px 4px #ff880080;
+  }
+  @keyframes flicker {
+    0%   { transform: scaleX(1) scaleY(1) rotate(-2deg); }
+    33%  { transform: scaleX(0.9) scaleY(1.05) rotate(2deg); }
+    66%  { transform: scaleX(1.05) scaleY(0.95) rotate(-1deg); }
+    100% { transform: scaleX(0.95) scaleY(1.08) rotate(3deg); }
+  }
+
+  .candle-body {
+    width: 20px; height: 80px;
+    background: linear-gradient(180deg, #f5e6c8 0%, #e8d0a0 50%, #c8a870 100%);
+    border-radius: 3px 3px 5px 5px;
+    border: 1px solid #c8a87080;
+  }
+
+  .candle-base {
+    width: 28px; height: 8px;
+    background: #c8a870;
+    border-radius: 0 0 6px 6px;
+  }
+
+  .candle-label {
+    margin-top: 10px;
+    color: #c9a96e;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  /* ── CLOSING ── */
+  .closing-section {
+    text-align: center;
+    padding: 60px 20px 80px;
+  }
+
+  .closing-big {
+    font-size: clamp(24px, 6vw, 52px);
+    color: #fff;
+    font-style: italic;
+    line-height: 1.3;
+    margin-bottom: 20px;
+    animation: pulse 4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { text-shadow: 0 0 30px #c9567840; }
+    50% { text-shadow: 0 0 80px #c95678cc, 0 0 160px #c9567840; }
+  }
+
+  .closing-verse {
+    color: #a080c0;
+    font-size: 16px;
+    font-style: italic;
+    line-height: 2;
+    max-width: 480px;
+    margin: 0 auto 40px;
+  }
+
+  .closing-signature {
+    color: #c9a96e;
+    font-size: 18px;
+    letter-spacing: 3px;
+  }
+
+  /* ── SECTION TITLES ── */
+  .section-title {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .section-title h2 {
+    font-size: clamp(20px, 4vw, 30px);
+    color: #f0d0ff;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .section-title .line {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #c9a96e, transparent);
+    margin: 0 auto;
+  }
+
+  /* ── SEPARATOR ── */
+  .sep {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #5a3080, transparent);
+    margin: 20px 0;
+  }
+
+  /* ── SECTION SPACER ── */
+  .spacer { height: 40px; }
+</style>
+</head>
+<body>
+
+<!-- ── BACKGROUND SCENE ── -->
+<div id="scene">
+  <div id="sky"></div>
+  <canvas id="bgCanvas" style="position:absolute;inset:0;pointer-events:none;"></canvas>
+</div>
+
+<!-- ── CONTENT ── -->
+<div id="content">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="subtitle-tag">A Gift of Love, Across the Miles</div>
+    <h1 class="big-title">Happy<br><span>Mother's</span> Day</h1>
+    <div class="dedication">To the most blessed woman in Mississippi — Our Mama</div>
+    <div class="scroll-hint">↓ &nbsp; scroll down &nbsp; ↓</div>
+  </section>
+
+  <!-- MUSIC PLAYER — at top so she can play while scrolling -->
+  <div class="panel visible" id="p-music" style="opacity:1;transform:none;">
+    <div id="music-player" style="position:relative;overflow:hidden;">
+      <div class="music-title">♪ &nbsp; A Song For You &nbsp; ♪</div>
+      <div class="music-song" id="songName"></div>
+      <div class="music-artist" id="artistName"></div>
+
+      <div class="music-controls">
+        <button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button>
+        <div class="music-progress">
+          <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+          <div class="progress-time">
+            <span id="timeNow">0:00</span>
+            <span id="timeTot">3:42</span>
+          </div>
+        </div>
+      </div>
+
+      <p style="color:#c9a96e;font-size:13px;margin-top:16px;font-style:italic;letter-spacing:1px;">
+        🎵 &nbsp; Press Play, then scroll down and enjoy &nbsp; 🎵
+      </p>
+    </div>
+  </div>
+
+  <!-- FLOWER BLOOM -->
+  <div class="panel" id="p-bloom">
+    <div id="bloom-section">
+      <svg class="flower-svg" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(110,110)">
+          <!-- Petals -->
+          <g class="petal-anim" style="animation-delay:0s">
+            <ellipse rx="28" ry="52" cy="-52" fill="#f0a0c0" opacity="0.85"/>
+          </g>
+          <g class="petal-anim" style="animation-delay:0.15s;transform:rotate(45deg)">
+            <ellipse rx="28" ry="52" cy="-52" fill="#e060a0" opacity="0.75"/>
+          </g>
+          <g class="petal-anim" style="animation-delay:0.3s;transform:rotate(90deg)">
+            <ellipse rx="28" ry="52" cy="-52" fill="#f080b0" opacity="0.85"/>
+          </g>
+          <g class="petal-anim" style="animation-delay:0.45s;transform:rotate(135deg)">
+            <ellipse rx="28" ry="52" cy="-52" fill="#e060a0" opacity="0.75"/>
+          </g>
+          <g class="petal-anim" style="animation-delay:0.6s;transform:rotate(180deg)">
+            <ellipse rx="28" ry="52" cy="-52" fill="#f0a0c0" opacity="0.85"/>
+          </g>
+          <g class="petal-anim" style="animation-delay:0.75s;transform:rotate(225deg)">
+            <ellipse rx="28" ry="52" cy="-52" fill="#e060a0" opacity="0.75"/>
+          </g>
+          <g class="petal-anim" style="animation-delay:0.9s;transform:rotate(270deg)">
+            <ellipse rx="28" ry="52" cy="-52" fill="#f080b0" opacity="0.85"/>
+          </g>
+          <g class="petal-anim" style="animation-delay:1.05s;transform:rotate(315deg)">
+            <ellipse rx="28" ry="52" cy="-52" fill="#e060a0" opacity="0.75"/>
+          </g>
+          <!-- Center -->
+          <circle r="28" fill="#f5d080" opacity="0.95"/>
+          <circle r="20" fill="#f0b840"/>
+          <circle r="10" fill="#e09020"/>
+        </g>
+      </svg>
+
+      <div class="section-title">
+        <h2>You Are Our Flower</h2>
+        <div class="line"></div>
+      </div>
+
+      <p style="color:#c0a0e0;font-size:16px;line-height:2;text-align:center;max-width:520px;margin:0 auto;">
+        In a garden full of wonderful mothers, God chose to give us the most fragrant, most beautiful, most loving one of all.
+        <em style="color:#f0b0d0;font-style:normal"> — You.</em>
+      </p>
+    </div>
+  </div>
+
+  <!-- PREACHING / SERMON -->
+  <div class="panel" id="p-sermon">
+    <div class="sermon-card">
+      <div class="sermon-label">A Word From Your Children</div>
+      <div class="sermon-text" id="sermonText"></div>
+    </div>
+  </div>
+
+  <!-- PHOTO FRAME -->
+  <div class="panel" id="p-photo">
+    <div class="frame-section">
+      <div class="section-title">
+        <h2>The Queen of Our Hearts</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="photo-frame">
+        <div class="frame-border"></div>
+        <div class="fc-tl frame-corner"></div>
+        <div class="fc-tr frame-corner"></div>
+        <div class="fc-bl frame-corner"></div>
+        <div class="fc-br frame-corner"></div>
+        <div class="frame-inner">
+          <div class="frame-silhouette">👑</div>
+          <div style="font-size:52px;margin:-10px 0;">🙏🏾</div>
+          <div class="frame-name">Our Blessed Mama</div>
+          <div class="frame-subtitle">Mississippi's Greatest Treasure</div>
+        </div>
+      </div>
+
+      <p style="color:#a080c0;font-size:14px;font-style:italic;text-align:center;">
+        No picture could ever capture the fullness of who you are —<br>
+        your love lives in us.
+      </p>
+    </div>
+  </div>
+
+  <!-- SIBLINGS -->
+  <div class="panel" id="p-siblings">
+    <div class="section-title">
+      <h2>Three Hearts, One Love</h2>
+      <div class="line"></div>
+    </div>
+
+    <p style="color:#b090d0;font-size:16px;line-height:2;text-align:center;margin-bottom:28px;">
+      Across this whole wide world, among all the children who have ever loved a mother,<br>
+      <em style="color:#f0d080;font-style:normal">we are the three most blessed.</em>
+    </p>
+
+    <div class="siblings-row">
+      <div class="sibling-card">
+        <div class="sibling-avatar">🌟</div>
+        <div class="sibling-label">Clement</div>
+        <div class="love-badge">Loves you ❤️</div>
+      </div>
+      <div class="sibling-card" style="animation-delay:0.2s">
+        <div class="sibling-avatar">🌙</div>
+        <div class="sibling-label">Shiloh</div>
+        <div class="love-badge">Loves you ❤️</div>
+      </div>
+      <div class="sibling-card" style="animation-delay:0.4s">
+        <div class="sibling-avatar">☀️</div>
+        <div class="sibling-label">Hanita</div>
+        <div class="love-badge">Loves you ❤️</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:20px;">
+      <div style="font-size:28px;animation:pulse 3s infinite">❤️ ❤️ ❤️</div>
+    </div>
+  </div>
+
+  <!-- BLESSINGS -->
+  <div class="panel" id="p-blessings">
+    <div class="section-title">
+      <h2>The Gifts You Gave Us</h2>
+      <div class="line"></div>
+    </div>
+
+    <div class="blessings-grid">
+      <div class="blessing-card">
+        <div class="blessing-icon">🙏</div>
+        <div class="blessing-title">Faith</div>
+        <div class="blessing-desc">You planted the Word of God in our hearts before we even knew what faith was.</div>
+      </div>
+      <div class="blessing-card">
+        <div class="blessing-icon">💪</div>
+        <div class="blessing-title">Strength</div>
+        <div class="blessing-desc">You showed us what it means to stand tall when everything around you is shaking.</div>
+      </div>
+      <div class="blessing-card">
+        <div class="blessing-icon">❤️</div>
+        <div class="blessing-title">Love</div>
+        <div class="blessing-desc">Your love is the kind that doesn't run dry — patient, fierce, and unconditional.</div>
+      </div>
+      <div class="blessing-card">
+        <div class="blessing-icon">📖</div>
+        <div class="blessing-title">Wisdom</div>
+        <div class="blessing-desc">Every proverb, every lesson, every late-night talk — still guiding us today.</div>
+      </div>
+      <div class="blessing-card">
+        <div class="blessing-icon">🏠</div>
+        <div class="blessing-title">Home</div>
+        <div class="blessing-desc">Wherever you are becomes home. That is the gift only a mother can give.</div>
+      </div>
+      <div class="blessing-card">
+        <div class="blessing-icon">🌿</div>
+        <div class="blessing-title">Peace</div>
+        <div class="blessing-desc">Your presence alone calms every storm. Just knowing you are there is enough.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CANDLES -->
+  <div class="panel" id="p-candles">
+    <div class="section-title">
+      <h2>We Light These For You</h2>
+      <div class="line"></div>
+    </div>
+
+    <div class="candle-row">
+      <div class="candle">
+        <div class="flame" style="animation-delay:0s"></div>
+        <div class="candle-body"></div>
+        <div class="candle-base"></div>
+        <div class="candle-label">For your<br>health</div>
+      </div>
+      <div class="candle" style="transform:translateY(-10px)">
+        <div class="flame" style="animation-delay:0.3s;width:20px;height:36px;"></div>
+        <div class="candle-body" style="height:100px;width:24px;"></div>
+        <div class="candle-base" style="width:34px;"></div>
+        <div class="candle-label">For your<br>joy</div>
+      </div>
+      <div class="candle">
+        <div class="flame" style="animation-delay:0.6s"></div>
+        <div class="candle-body"></div>
+        <div class="candle-base"></div>
+        <div class="candle-label">For your<br>long life</div>
+      </div>
+    </div>
+
+    <p style="color:#a080b0;font-size:15px;font-style:italic;text-align:center;max-width:460px;margin:0 auto;">
+      May God keep you, bless you, and let you shine as long as the stars — which is forever.
+    </p>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="panel" id="p-closing">
+    <div class="closing-section">
+      <div class="closing-big">We Love You,<br>Mama 💐</div>
+      <div class="closing-verse">
+        "Her children arise and call her blessed;<br>
+        her husband also, and he praises her."<br>
+        <span style="color:#7060a0;font-size:13px;">— Proverbs 31:28</span>
+      </div>
+      <div class="sep"></div>
+      <div style="font-size:48px;margin:30px 0;animation:pulse 3s infinite;">🌸 🙏 🌸</div>
+      <div class="closing-signature">Happy Mother's Day · 2026</div>
+      <div style="color:#5a408090;font-size:13px;margin-top:10px;letter-spacing:2px;">
+        From Mississippi, with all our love
+      </div>
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+<audio id="bgAudio" loop>
+  <!-- We'll generate tones with Web Audio API since we can't stream external audio -->
+</audio>
+
+<script>
+// ── WEB AUDIO MUSIC ENGINE ──
+// Generates beautiful hymn-like tones (no external URLs needed)
+
+let audioCtx = null;
+let playing = false;
+let musicInterval = null;
+let elapsed = 0;
+const TOTAL_SECONDS = 222; // 3:42
+
+// Swahili Catholic hymn-like chord progression
+// Based on typical 3/4 Catholic Mass chord patterns
+const SCALE = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25];
+const CHORDS = [
+  [0, 2, 4],   // C major
+  [3, 5, 0],   // F major
+  [4, 6, 1],   // G major
+  [0, 2, 4],   // C major
+  [5, 0, 2],   // A minor
+  [3, 5, 0],   // F major
+  [4, 6, 1],   // G major
+  [0, 2, 4],   // C major
+];
+
+let chordIndex = 0;
+let noteScheduler = null;
+
+function createTone(freq, type, gainVal, dur, delay, ctx) {
+  const g = ctx.createGain();
+  const o = ctx.createOscillator();
+  o.type = type;
+  o.frequency.value = freq;
+  g.gain.setValueAtTime(0, ctx.currentTime + delay);
+  g.gain.linearRampToValueAtTime(gainVal, ctx.currentTime + delay + 0.08);
+  g.gain.linearRampToValueAtTime(gainVal * 0.7, ctx.currentTime + delay + dur * 0.5);
+  g.gain.linearRampToValueAtTime(0, ctx.currentTime + delay + dur);
+  o.connect(g);
+  g.connect(ctx.destination);
+  o.start(ctx.currentTime + delay);
+  o.stop(ctx.currentTime + delay + dur + 0.05);
+}
+
+function playChord() {
+  if (!audioCtx || audioCtx.state === 'suspended') return;
+  const chord = CHORDS[chordIndex % CHORDS.length];
+  chord.forEach((noteIdx, i) => {
+    const freq = SCALE[noteIdx % SCALE.length];
+    const freqHigh = freq * 2;
+    // Bass
+    createTone(freq * 0.5, 'sine', 0.10, 1.6, i * 0.0, audioCtx);
+    // Choir-like swell
+    createTone(freq, 'sine', 0.06, 1.5, i * 0.1, audioCtx);
+    createTone(freqHigh, 'sine', 0.04, 1.4, i * 0.15, audioCtx);
+    // Soft triangle harmonics
+    createTone(freq * 1.5, 'triangle', 0.025, 1.2, i * 0.05, audioCtx);
+  });
+  chordIndex++;
+}
+
+function startMusic() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  playing = true;
+  document.getElementById('playBtn').textContent = '⏸';
+  playChord();
+  noteScheduler = setInterval(playChord, 1800);
+  musicInterval = setInterval(() => {
+    elapsed = Math.min(elapsed + 1, TOTAL_SECONDS);
+    updateProgress();
+    if (elapsed >= TOTAL_SECONDS) { elapsed = 0; }
+  }, 1000);
+  spawnNotes();
+}
+
+function stopMusic() {
+  playing = false;
+  document.getElementById('playBtn').textContent = '▶';
+  if (noteScheduler) clearInterval(noteScheduler);
+  if (musicInterval) clearInterval(musicInterval);
+  if (audioCtx) audioCtx.suspend();
+}
+
+function togglePlay() {
+  if (playing) stopMusic(); else startMusic();
+}
+
+function updateProgress() {
+  const pct = (elapsed / TOTAL_SECONDS) * 100;
+  document.getElementById('progFill').style.width = pct + '%';
+  const m = Math.floor(elapsed / 60);
+  const s = elapsed % 60;
+  document.getElementById('timeNow').textContent = m + ':' + String(s).padStart(2,'0');
+}
+
+function spawnNotes() {
+  const player = document.getElementById('music-player');
+  const notes = ['♪','♫','♩','♬','𝄞'];
+  function addNote() {
+    if (!playing) return;
+    const n = document.createElement('div');
+    n.className = 'music-note';
+    const size = 14 + Math.random() * 16;
+    n.style.cssText = `--ns:${size}px;--nd:${2+Math.random()*2}s;--ndelay:0s;--nx:${(Math.random()-0.5)*80}px;--ny:-${60+Math.random()*40}px;--nr:${(Math.random()-0.5)*60}deg;left:${10+Math.random()*80}%;bottom:20px;`;
+    n.textContent = notes[Math.floor(Math.random() * notes.length)];
+    player.appendChild(n);
+    setTimeout(() => n.remove(), 4000);
+    if (playing) setTimeout(addNote, 800 + Math.random() * 1200);
+  }
+  addNote();
+}
+
+// ── SERMON TEXT ──
+const sermonLines = [
+  "In all the world,",
+  "across every nation, every land, every tongue —",
+  "if you were to search every corner of this earth",
+  "for the <em>greatest mother</em> who ever lived...",
+  "",
+  "You would find her in Mississippi.",
+  "",
+  "We are three. Three children — Clement, Shiloh, and Hanita.",
+  "And in a world of billions,",
+  "we got the <em>best one.</em>",
+  "",
+  "Mama, I — Clement — want you to know:",
+  "you did not just give us life —",
+  "you gave us <em>faith.</em>",
+  "You gave us your knees, bent in prayer.",
+  "You gave us your hands, working without rest.",
+  "You gave us your voice, singing hymns in the kitchen.",
+  "",
+  "We have been blessed.",
+  "Lord knows, <em>we have been blessed.</em>",
+  "",
+  "Today, though miles may separate us,",
+  "my heart — Clement's heart — is right there beside you.",
+  "Shiloh's heart is there. Hanita's heart is there.",
+  "Three hearts. One love. One mama.",
+  "",
+  "<em>Happy Mother's Day, Mama.</em>",
+  "We love you more than words can carry.",
+];
+
+function typeSermon() {
+  const container = document.getElementById('sermonText');
+  container.innerHTML = '';
+  sermonLines.forEach((line, i) => {
+    const p = document.createElement('p');
+    p.className = 'sermon-line';
+    if (line === '') {
+      p.style.height = '12px';
+    } else {
+      p.innerHTML = line;
+    }
+    container.appendChild(p);
+    setTimeout(() => p.classList.add('shown'), 300 + i * 280);
+  });
+}
+
+// ── BACKGROUND CANVAS ──
+const canvas = document.getElementById('bgCanvas');
+const ctx2 = canvas.getContext('2d');
+let W, H;
+let particles = [];
+let petals = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+// Create stars
+function initParticles() {
+  particles = [];
+  for (let i = 0; i < 200; i++) {
+    particles.push({
+      x: Math.random() * W,
+      y: Math.random() * H * 0.75,
+      r: Math.random() * 1.8 + 0.3,
+      opacity: Math.random(),
+      speed: Math.random() * 0.005 + 0.002,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+}
+initParticles();
+
+// Canvas petals
+function initPetals() {
+  petals = [];
+  for (let i = 0; i < 18; i++) {
+    petals.push({
+      x: Math.random() * W,
+      y: -20 - Math.random() * H,
+      size: 6 + Math.random() * 10,
+      speed: 0.4 + Math.random() * 0.8,
+      drift: (Math.random() - 0.5) * 0.5,
+      rot: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.04,
+      hue: 330 + Math.random() * 30,
+      opacity: 0.5 + Math.random() * 0.4
+    });
+  }
+}
+initPetals();
+
+// Floating heart particles
+let floatHearts = [];
+function spawnHeart() {
+  floatHearts.push({
+    x: Math.random() * W,
+    y: H + 20,
+    size: 14 + Math.random() * 22,
+    speed: 0.6 + Math.random() * 1,
+    drift: (Math.random()-0.5)*0.5,
+    opacity: 0.6 + Math.random() * 0.3
+  });
+}
+setInterval(spawnHeart, 1200);
+
+let frame = 0;
+function drawFrame() {
+  ctx2.clearRect(0, 0, W, H);
+  frame++;
+
+  // Stars
+  particles.forEach(p => {
+    const flicker = Math.sin(frame * p.speed + p.phase) * 0.4 + 0.6;
+    ctx2.beginPath();
+    ctx2.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx2.fillStyle = `rgba(255,255,255,${p.opacity * flicker})`;
+    ctx2.fill();
+  });
+
+  // Petals
+  petals.forEach(p => {
+    p.y += p.speed;
+    p.x += Math.sin(frame * 0.02 + p.drift) * 0.8;
+    p.rot += p.rotSpeed;
+    if (p.y > H + 20) {
+      p.y = -20;
+      p.x = Math.random() * W;
+    }
+    ctx2.save();
+    ctx2.translate(p.x, p.y);
+    ctx2.rotate(p.rot);
+    ctx2.beginPath();
+    ctx2.ellipse(0, 0, p.size * 0.5, p.size, 0, 0, Math.PI * 2);
+    ctx2.fillStyle = `hsla(${p.hue},80%,75%,${p.opacity})`;
+    ctx2.fill();
+    ctx2.restore();
+  });
+
+  // Floating hearts
+  floatHearts = floatHearts.filter(h => h.y > -30);
+  floatHearts.forEach(h => {
+    h.y -= h.speed;
+    h.x += Math.sin(frame * 0.03) * h.drift;
+    h.opacity -= 0.002;
+    ctx2.save();
+    ctx2.globalAlpha = Math.max(0, h.opacity);
+    ctx2.font = `${h.size}px serif`;
+    ctx2.fillText('❤', h.x, h.y);
+    ctx2.restore();
+  });
+
+  requestAnimationFrame(drawFrame);
+}
+drawFrame();
+
+// ── INTERSECTION OBSERVER FOR PANELS ──
+const panels = document.querySelectorAll('.panel');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      if (e.target.id === 'p-sermon') {
+        setTimeout(typeSermon, 400);
+      }
+    }
+  });
+}, { threshold: 0.15 });
+panels.forEach(p => observer.observe(p));
+</script>
+</body>
+</html>
